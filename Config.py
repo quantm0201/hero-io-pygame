@@ -1,0 +1,13 @@
+WITDH = 1200
+HEIGHT = 720
+
+RED = (255, 0, 0)
+BLUE = (0, 0, 255)
+GREEN = (0, 255, 0)
+DARK_GREEN = (0, 150, 0)
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+
+START_GAME = 0
+QUIT = 1
+PAUSE = 2
