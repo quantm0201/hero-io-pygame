@@ -33,9 +33,13 @@ class Hero:
         self.direction = cf.FORWARD_DIRECTION
         self.forward = cf.FORWARD_DIRECTION
         self.angle = 0
-        self.bulletPool = BulletPool(10)
+        self.bulletPool = BulletPool(10, self.parentMap)
         self.upDirection = False
         self.downDirection = False
+
+        # Gun
+        self.gunOrigin = pygame.image.load("res/Bullet/gun.png")
+        self.gunOrigin = pygame.transform.scale(self.gunOrigin, (32, 72))
 
 
     def shoot(self):
@@ -43,15 +47,16 @@ class Hero:
         self.bulletPool.shoot(pos, self.direction, self.angle)
     
     def draw(self, surface):
+        # bullet
+        self.bulletPool.update(surface)
+
+        # gun
+        self.drawGun(surface)
+        
         self.update()
         self.rect.center = (self.x, self.y)
         surface.blit(self.surface, self.rect)
         pygame.draw.circle(self.surface, self.color, (cf.HERO_WIDTH//2, cf.HERO_HEIGHT//2), cf.HERO_SIZE//2)
-
-        
-        # bullet
-        self.bulletPool.update(surface)
-
         
         
 
@@ -135,9 +140,16 @@ class Hero:
             self.angle = (self.angle - cf.DIRECTION_SPEED) % 360
         else:
             self.angle = (self.angle + cf.DIRECTION_SPEED) % 360
-        print(self.angle)
 
         radian = self.angle * cf.DEGREE_TO_RADIAN
         dirX = self.forward.x * math.cos(radian) - self.forward.y * math.sin(radian)
         dirY = self.forward.x * math.sin(radian) + self.forward.y * math.cos(radian)
         self.direction = Point(dirX, dirY)
+
+    def drawGun(self, surface): 
+        self.gunPos = (self.x - self.gunOrigin.get_width() / 2, self.y - self.gunOrigin.get_height() / 2)
+
+        self.gun = pygame.transform.rotate(self.gunOrigin, -self.angle)
+        rect = self.gun.get_rect(center = self.gunOrigin.get_rect().center)
+        self.gunPos = (self.gunPos[0] + rect.left, self.gunPos[1] + rect.top)
+        surface.blit(self.gun, self.gunPos)

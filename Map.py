@@ -52,6 +52,21 @@ class Map:
                 return cf.COLLISON_Y
         return cf.NO_COLLISION
 
+    def checkCollisionByFor(self, oldX, oldY, x, y):
+        deltaX = (x - oldX) / cf.DETECT_SLICE
+        deltaY = (y - oldY) / cf.DETECT_SLICE
+        startX = x
+        startY = y
+
+        for i in range(cf.DETECT_SLICE):
+            for block in self.blocks:
+                if block.checkCollidePoint(startX, startY):
+                    return True
+            startX -= deltaX
+            startY -= deltaY
+        
+        return False
+
 tileImg = [1, 1, 1]
 tileImg[0] = pygame.image.load("res/tile_desert.png")
 tileImg[1] = pygame.image.load("res/tile_grass.png")

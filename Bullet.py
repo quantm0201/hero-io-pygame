@@ -6,11 +6,12 @@ from Util import *
 bulletSrc = "res/Bullet/bullet1.png"
 
 class Bullet:
-    def __init__(self, id):
+    def __init__(self, id, mainMap):
         self.id = id
+        self.mainMap = mainMap
         self.surfaceOrigin = pygame.image.load(bulletSrc)
+        self.surfaceOrigin = pygame.transform.scale(self.surfaceOrigin, (cf.BULLET_WIDTH, cf.BULLET_HEIGHT))
         self.pos = Point(0, 0)
-        # self.surface = pygame.transform.scale(self.surface, (cf.BULLET_WIDTH, cf.BULLET_HEIGHT))
         self.isFree = True
 
         # State
@@ -41,26 +42,35 @@ class Bullet:
         self.countDieTime = 0
         self.isFree = False
         self.surface = pygame.transform.rotate(self.surfaceOrigin, -self.angle)
-        rect = self.surface.get_rect(center = self.surfaceOrigin.get_rect().center)
-        self.pos = Point(posX + rect.top, posY + rect.left)
+        self.rect = self.surface.get_rect(center = self.surfaceOrigin.get_rect().center)
+        self.pos = Point(posX + self.rect.left, posY + self.rect.top)
 
     def updatePosition(self):
+        oldPos = (self.pos.x + self.surface.get_width() / 2, self.pos.y + self.surface.get_width() / 2)
+
         deltaX = self.vector.x * cf.BULLET_SPEED / cf.FPS
         deltaY = self.vector.y * cf.BULLET_SPEED / cf.FPS
         self.pos.addDelta(deltaX, deltaY)
 
+        newPos = (self.pos.x + self.surface.get_width() / 2, self.pos.y + self.surface.get_width() / 2)
 
         
+        print(oldPos[0], oldPos[1], newPos[0], newPos[1])
+
+        state = self.mainMap.checkCollisionByFor(oldPos[0], oldPos[1], newPos[0], newPos[1])
+        if state:
+            self.free()
 
         
     # def draw(self, surface):
 
 class BulletPool: 
-    def __init__(self, amount):
+    def __init__(self, amount, mainMap):
         self.amount = amount
+        self.mainMap = mainMap
         self.bullets = []
         for i in range(amount):
-            bullet = Bullet(i)
+            bullet = Bullet(i, self.mainMap)
             self.bullets.append(bullet)
 
     # run bullet from "pos" with "vector" direction
