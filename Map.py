@@ -12,10 +12,10 @@ class Map:
         self.tiles = []
         for i in range(len(cf.MAP_1)):
             for j in range(len(cf.MAP_1[i])):
-                tile = Tile(i*len(cf.MAP_1[i]) + j, (cf.BLOCK_SIZE*j, cf.BLOCK_SIZE*i))
+                tile = Tile(i*len(cf.MAP_1[i]) + j, (cf.BLOCK_SIZE*j, cf.BLOCK_SIZE*i), self.id)
                 self.tiles.append(tile)
                 if cf.MAP_1[i][j] != 0 and cf.MAP_1[i][j] != cf.HERO_1_ID and cf.MAP_1[i][j] != cf.HERO_2_ID:
-                    block = Block(i*len(cf.MAP_1[i]) + j, (cf.BLOCK_SIZE*j, cf.BLOCK_SIZE*i), cf.MAP_1[i][j])
+                    block = Block(i*len(cf.MAP_1[i]) + j, (cf.BLOCK_SIZE*j, cf.BLOCK_SIZE*i), self.id, cf.MAP_1[i][j])
                     self.blocks.append(block)
     
     def draw(self, surface):
@@ -54,30 +54,33 @@ class Map:
 
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, id, pos):
+    def __init__(self, id, pos, mapName):
         pygame.sprite.Sprite.__init__(self)
 
         self.id = id
         self.pos = pos
+        self.mapName = mapName
         self.width = self.height = cf.BLOCK_SIZE
 
         self.setImage()
-        self.image.set_colorkey(cf.BLACK)
         self.image = pygame.transform.scale(self.image, (self.width, self.height))
+        self.image.set_colorkey(cf.BLACK)
+        self.rect = self.image.get_rect()
+        self.rect.center = (self.pos[0] + cf.BLOCK_SIZE//2, self.pos[1] + cf.BLOCK_SIZE//2)
 
     def setImage(self):
-        self.image = pygame.image.load("res/tile_desert.png").convert()
+        self.image = pygame.image.load("res/tile_" + self.mapName + ".png").convert()
 
     def draw(self, surface):
-        surface.blit(self.image, self.pos)
+        surface.blit(self.image, self.rect)
 
 class Block(Tile):
-    def __init__(self, id, pos, type):
+    def __init__(self, id, pos, mapName, type):
         self.type = type
-        Tile.__init__(self, id, pos)
+        Tile.__init__(self, id, pos, mapName)
 
     def setImage(self):
-        self.image = pygame.image.load("res/block" + str(self.type) + "_desert.png").convert()
+        self.image = pygame.image.load("res/block" + str(self.type) + "_" + self.mapName + ".png").convert()
     
 
     def checkCollidePoint(self, x, y):
