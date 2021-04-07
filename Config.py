@@ -10,9 +10,11 @@ DARK_GREEN = (0, 110, 0)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
+
 # Game Command
 START_GAME = 0
 QUIT = 1
+
 
 # Map
 MAP_1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
@@ -34,5 +36,11 @@ MAP_1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 
 BLOCK_SIZE = BLOCK_WIDTH = BLOCK_HEIGHT = 30
 
+NO_COLLISION = 0
+COLLISON_X = 1
+COLLISON_Y = 2
+COLLISON_BOTH = 3
+
 # Hero
 HERO_SIZE = HERO_WIDTH = HERO_HEIGHT = 30
+HERO_BASE_SPEED_PX_PER_FR = 2 #pixel per frame

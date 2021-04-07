@@ -23,11 +23,10 @@ while True:
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-        if event.type == KEYDOWN:
-            if started:
-                ret = gameScene.receiveKey(event.key)
-            else:
-                ret = menuScene.receiveKey(event.key)
+        if started:
+            gameScene.receiveEvent(event)
+        elif event.type == KEYDOWN:
+            ret = menuScene.receiveKey(event.key)
             if ret == cf.QUIT:
                 pygame.quit()
                 sys.exit()
