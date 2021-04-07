@@ -17,6 +17,9 @@ class GameScene:
             self.map = Map(cf.MAP_3_ID)
         self.hero1 = Hero(cf.HERO_1_ID, self.map)
         self.hero2 = Hero(cf.HERO_2_ID, self.map)
+        
+        self.hero1.setOponent(self.hero2)
+        self.hero2.setOponent(self.hero1)
 
     def draw(self, surface):
         surface.blit(self.surface, (0, 0))

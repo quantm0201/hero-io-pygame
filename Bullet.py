@@ -6,9 +6,10 @@ from Util import *
 bulletSrc = "res/Bullet/bullet1.png"
 
 class Bullet:
-    def __init__(self, id, mainMap):
+    def __init__(self, id, mainMap, bulletPool):
         self.id = id
         self.mainMap = mainMap
+        self.bulletPool = bulletPool
         self.surfaceOrigin = pygame.image.load(bulletSrc)
         self.surfaceOrigin = pygame.transform.scale(self.surfaceOrigin, (cf.BULLET_WIDTH, cf.BULLET_HEIGHT))
         self.pos = Point(0, 0)
@@ -54,12 +55,16 @@ class Bullet:
 
         newPos = (self.pos.x + self.surface.get_width() / 2, self.pos.y + self.surface.get_width() / 2)
 
-        
-        print(oldPos[0], oldPos[1], newPos[0], newPos[1])
-
         state = self.mainMap.checkCollisionByFor(oldPos[0], oldPos[1], newPos[0], newPos[1])
         if state:
             self.free()
+
+        state = self.bulletPool.checkCollisionOponent(oldPos[0], oldPos[1], newPos[0], newPos[1])
+        if state:
+            self.free()
+            print("Hited Oponent id: " + str(self.bulletPool.oponent.id))
+
+    
 
         
     # def draw(self, surface):
@@ -70,7 +75,7 @@ class BulletPool:
         self.mainMap = mainMap
         self.bullets = []
         for i in range(amount):
-            bullet = Bullet(i, self.mainMap)
+            bullet = Bullet(i, self.mainMap, self)
             self.bullets.append(bullet)
 
     # run bullet from "pos" with "vector" direction
@@ -84,6 +89,26 @@ class BulletPool:
         for bullet in self.bullets:
             if (not bullet.isFree):
                 bullet.update(surface)
-    
+
+    def setOponent(self, oponent):
+        self.oponent = oponent
+
+    def checkCollisionOponent(self, oldX, oldY, x, y):
+        deltaX = (x - oldX) / cf.DETECT_SLICE
+        deltaY = (y - oldY) / cf.DETECT_SLICE
+        startX = x
+        startY = y
+
+        oponentPos = self.oponent.rect
+
+        for i in range(cf.DETECT_SLICE):
+            state = oponentPos.left <= x <= oponentPos.left + cf.HERO_WIDTH and oponentPos.top <= y <= oponentPos.top + cf.HERO_HEIGHT
+            if state:
+                return True
+
+            startX -= deltaX
+            startY -= deltaY
+        
+        return False
 
         

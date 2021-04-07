@@ -38,8 +38,11 @@ class Hero:
         self.downDirection = False
 
         # Gun
-        self.gunOrigin = pygame.image.load("res/Bullet/gun.png")
-        self.gunOrigin = pygame.transform.scale(self.gunOrigin, (32, 72))
+        self.gunOrigin = pygame.image.load("res/Bullet/gun2.png")
+        self.gunOrigin = pygame.transform.scale(self.gunOrigin, (16, 70))
+
+    def setOponent(self, oponent):
+        self.bulletPool.setOponent(oponent)
 
 
     def shoot(self):
@@ -47,14 +50,14 @@ class Hero:
         self.bulletPool.shoot(pos, self.direction, self.angle)
     
     def draw(self, surface):
-        # bullet
-        self.bulletPool.update(surface)
+        self.update()
 
         # gun
         self.drawGun(surface)
-        
-        self.update()
         self.rect.center = (self.x, self.y)
+        # bullet
+        self.bulletPool.update(surface)
+        
         surface.blit(self.surface, self.rect)
         pygame.draw.circle(self.surface, self.color, (cf.HERO_WIDTH//2, cf.HERO_HEIGHT//2), cf.HERO_SIZE//2)
         
