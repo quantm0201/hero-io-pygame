@@ -10,8 +10,8 @@ class GameScene:
         self.surface = pygame.Surface((cf.WIDTH, cf.HEIGHT), SRCALPHA)
         self.surface.fill(cf.DARK_GREEN)
         self.map = Map(1)
-        self.hero1 = Hero(0, self.map.getHeroInitPos(0))
-        self.hero2 = Hero(1, self.map.getHeroInitPos(1))
+        self.hero1 = Hero(cf.HERO_1_ID, self.map)
+        self.hero2 = Hero(cf.HERO_2_ID, self.map)
 
     def draw(self, surface):
         surface.blit(self.surface, (0, 0))
@@ -19,9 +19,8 @@ class GameScene:
         self.hero1.draw(self.map.surface)
         self.hero2.draw(self.map.surface)
 
-    def receiveKey(self, key):
-        if (key == K_SPACE):
-            print("shoot")
-            self.hero1.shoot()
+    def receiveEvent(self, event):
+        self.hero1.receiveEvent(event)
+        self.hero2.receiveEvent(event)
         return None
         
