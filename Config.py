@@ -45,9 +45,9 @@ MAP_1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 
 BLOCK_SIZE = BLOCK_WIDTH = BLOCK_HEIGHT = 30
 
-MAP_1_ID = "desert"
-MAP_2_ID = "grass"
-MAP_3_ID = "ground"
+MAP_1_ID = 0
+MAP_2_ID = 1
+MAP_3_ID = 2
 
 NO_COLLISION = 0
 COLLISON_X = 1
