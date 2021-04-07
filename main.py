@@ -13,7 +13,6 @@ pygame.display.set_caption("Hero.io")
 menuScene = MenuScene()
 gameScene = GameScene()
 
-FPS = 60
 clock = pygame.time.Clock()
 
 started = False
@@ -39,4 +38,4 @@ while True:
     else:
         menuScene.draw(SCREEN)
     pygame.display.update()
-    clock.tick(FPS)
+    clock.tick(cf.FPS)

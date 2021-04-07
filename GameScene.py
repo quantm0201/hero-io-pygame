@@ -20,5 +20,8 @@ class GameScene:
         self.hero2.draw(self.map.surface)
 
     def receiveKey(self, key):
+        if (key == K_SPACE):
+            print("shoot")
+            self.hero1.shoot()
         return None
         
