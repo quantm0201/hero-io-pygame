@@ -6,7 +6,7 @@ from Component import *
 class Hero:
     def __init__(self, id, parentMap):
         self.id = id
-        if self.id == 0:
+        if self.id == cf.HERO_1_ID:
             self.color = cf.RED
         else:
             self.color = cf.BLUE
@@ -69,23 +69,21 @@ class Hero:
     
     def receiveEvent(self, event):
         if event.type == KEYDOWN:
-            if self.id == 0:
-                if event.key == K_w:
-                    self.movingUp = True
-                if event.key == K_s:
-                    self.movingDown = True
-                if event.key == K_a:
-                    self.movingLeft = True
-                if event.key == K_d:
-                    self.movingRight = True
+            if event.key == cf.HERO_KEY[self.id].get("kUp"):
+                self.movingUp = True
+            if event.key == cf.HERO_KEY[self.id].get("kDown"):
+                self.movingDown = True
+            if event.key == cf.HERO_KEY[self.id].get("kLeft"):
+                self.movingLeft = True
+            if event.key == cf.HERO_KEY[self.id].get("kRight"):
+                self.movingRight = True
         if event.type == KEYUP:
-            if self.id == 0:
-                if event.key == K_w:
-                    self.movingUp = False
-                if event.key == K_s:
-                    self.movingDown = False
-                if event.key == K_a:
-                    self.movingLeft = False
-                if event.key == K_d:
-                    self.movingRight = False
+            if event.key == cf.HERO_KEY[self.id].get("kUp"):
+                self.movingUp = False
+            if event.key == cf.HERO_KEY[self.id].get("kDown"):
+                self.movingDown = False
+            if event.key == cf.HERO_KEY[self.id].get("kLeft"):
+                self.movingLeft = False
+            if event.key == cf.HERO_KEY[self.id].get("kRight"):
+                self.movingRight = False
         return None

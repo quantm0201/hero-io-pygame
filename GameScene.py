@@ -10,8 +10,8 @@ class GameScene:
         self.surface = pygame.Surface((cf.WIDTH, cf.HEIGHT), SRCALPHA)
         self.surface.fill(cf.DARK_GREEN)
         self.map = Map(1)
-        self.hero1 = Hero(0, self.map)
-        self.hero2 = Hero(1, self.map)
+        self.hero1 = Hero(cf.HERO_1_ID, self.map)
+        self.hero2 = Hero(cf.HERO_2_ID, self.map)
 
     def draw(self, surface):
         surface.blit(self.surface, (0, 0))
