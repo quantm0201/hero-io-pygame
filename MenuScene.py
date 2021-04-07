@@ -5,17 +5,17 @@ from Component import *
 
 class MenuScene:
     def __init__(self):
-        self.surface = pygame.Surface((cf.WITDH, cf.HEIGHT), SRCALPHA)
+        self.surface = pygame.Surface((cf.WIDTH, cf.HEIGHT), SRCALPHA)
         self.surface.fill(cf.BLACK + (110,))
 
         self.btnStart = pygame.Surface((200, 100), SRCALPHA)
         self.btnStart_rect = self.btnStart.get_rect()
-        self.btnStart_rect.center = (cf.WITDH/2, cf.HEIGHT/2 - 100)
+        self.btnStart_rect.center = (cf.WIDTH/2, cf.HEIGHT/2 - 100)
         self.statTxt = Text(self.btnStart,"START", cf.WHITE, 30)
 
         self.btnQuit = pygame.Surface((200, 100), SRCALPHA)
         self.btnQuit_rect = self.btnQuit.get_rect()
-        self.btnQuit_rect.center = (cf.WITDH/2, cf.HEIGHT/2 + 100)
+        self.btnQuit_rect.center = (cf.WIDTH/2, cf.HEIGHT/2 + 100)
         self.quitTxt = Text(self.btnQuit, "QUIT", cf.WHITE, 30)
 
         self.select = cf.START_GAME

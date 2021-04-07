@@ -6,7 +6,7 @@ from GameScene import *
 
 pygame.init()
 
-SCREEN = pygame.display.set_mode((1200, 720))
+SCREEN = pygame.display.set_mode((cf.WIDTH, cf.HEIGHT))
 
 pygame.display.set_caption("Hero.io")
 
