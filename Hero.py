@@ -26,7 +26,6 @@ class Hero:
 
         self.surface = pygame.Surface((cf.HERO_WIDTH, cf.HERO_HEIGHT), SRCALPHA)
         self.rect = self.surface.get_rect()
-        # self.surface.fill((0, 0, 0, 0))
         self.rect_center = (cf.HERO_WIDTH//2, cf.HERO_HEIGHT//2)
         # bullet
         self.bulletPool = BulletPool(10)
@@ -39,16 +38,17 @@ class Hero:
     #     # bullet
     #     self.bulletPool.update(surface)
 
-    # def shoot(self):
-    #     vector =  Point(1, 1)
-    #     pos = Point(self.pos[0], self.pos[1])
-    #     self.bulletPool.shoot(pos, vector)
+    def shoot(self):
+        vector =  Point(1, 1)
+        pos = Point(self.pos[0], self.pos[1])
+        self.bulletPool.shoot(pos, vector)
     
     def draw(self, surface):
         self.update()
         self.rect.center = (self.x, self.y)
         surface.blit(self.surface, self.rect)
         pygame.draw.circle(self.surface, self.color, (cf.HERO_WIDTH//2, cf.HERO_HEIGHT//2), cf.HERO_SIZE//2)
+        
 
     def update(self):
         if self.movingLeft or self.movingDown or self.movingUp or self.movingRight:
@@ -95,6 +95,8 @@ class Hero:
                 self.movingLeft = True
             if event.key == cf.HERO_KEY[self.id].get("kRight"):
                 self.movingRight = True
+            if event.key == cf.HERO_KEY[self.id].get(cf.K_ATTACK):
+                i = 0
         if event.type == KEYUP:
             if event.key == cf.HERO_KEY[self.id].get("kUp"):
                 self.movingUp = False

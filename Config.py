@@ -64,14 +64,18 @@ HERO_KEY[HERO_1_ID] = {
     "kUp": K_w,
     "kDown": K_s,
     "kLeft": K_a,
-    "kRight": K_d
+    "kRight": K_d,
+    "kAttack": K_SPACE,
 }
 HERO_KEY[HERO_2_ID] = {
     "kUp": K_UP,
     "kDown": K_DOWN,
     "kLeft": K_LEFT,
-    "kRight": K_RIGHT
+    "kRight": K_RIGHT,
+    "kAttack": K_0,
 }
+
+K_ATTACK = "kAttack"
 
 # Bullet
 BULLET_SIZE = BULLET_WIDTH = BULLET_HEIGHT = 20
