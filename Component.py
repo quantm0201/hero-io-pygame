@@ -25,17 +25,5 @@ class Text:
     def reDraw(self):
         self.surface = self.font.render(self.text, True, self.color)
         self.parent.blit(self.surface, self.rect)
-
-class Point:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
-    
-    def getValue(self):
-        return (self.x, self.y)
-
-    def addDelta(self, deltaX, deltaY):
-        self.x += deltaX
-        self.y += deltaY
     
         

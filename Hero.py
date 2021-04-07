@@ -30,15 +30,17 @@ class Hero:
 
 
         # bullet
-        self.direction = Point(1, 0)
+        self.direction = cf.FORWARD_DIRECTION
+        self.forward = cf.FORWARD_DIRECTION
+        self.angle = 0
         self.bulletPool = BulletPool(10)
         self.upDirection = False
-        self.downDirection = True
+        self.downDirection = False
 
 
     def shoot(self):
         pos = Point(self.x, self.y)
-        self.bulletPool.shoot(pos, self.direction)
+        self.bulletPool.shoot(pos, self.direction, self.angle)
     
     def draw(self, surface):
         self.update()
@@ -46,8 +48,11 @@ class Hero:
         surface.blit(self.surface, self.rect)
         pygame.draw.circle(self.surface, self.color, (cf.HERO_WIDTH//2, cf.HERO_HEIGHT//2), cf.HERO_SIZE//2)
 
+        
         # bullet
         self.bulletPool.update(surface)
+
+        
         
 
     def update(self):
@@ -85,13 +90,13 @@ class Hero:
             self.x = x
             self.y = y
 
-            # bullet
-            if self.upDirection and self.downDirection:
-                return
-            elif self.upDirection:
-                self.changeDirection(cf.UP_DIRECTION_STATE)
-            elif self.downDirection:
-                self.changeDirection(cf.DOWN_DIRECTION_STATE)
+        # bullet
+        if self.upDirection and self.downDirection:
+            return
+        elif self.upDirection:
+            self.changeDirection(cf.UP_DIRECTION_STATE)
+        elif self.downDirection:
+            self.changeDirection(cf.DOWN_DIRECTION_STATE)
                 
     
     def receiveEvent(self, event):
@@ -127,6 +132,12 @@ class Hero:
 
     def changeDirection(self, state):
         if (state == cf.UP_DIRECTION_STATE):
-            return
+            self.angle = (self.angle - cf.DIRECTION_SPEED) % 360
         else:
-            return
+            self.angle = (self.angle + cf.DIRECTION_SPEED) % 360
+        print(self.angle)
+
+        radian = self.angle * cf.DEGREE_TO_RADIAN
+        dirX = self.forward.x * math.cos(radian) - self.forward.y * math.sin(radian)
+        dirY = self.forward.x * math.sin(radian) + self.forward.y * math.cos(radian)
+        self.direction = Point(dirX, dirY)
