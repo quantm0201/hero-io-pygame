@@ -57,10 +57,14 @@ class Bullet:
 
         state = self.mainMap.checkCollisionByFor(oldPos[0], oldPos[1], newPos[0], newPos[1])
         if state:
+            pos = (self.pos.x + self.surface.get_width() / 2, self.pos.y + self.surface.get_height() / 2)
+            self.bulletPool.hero.explode.start(pos)
             self.free()
 
         state = self.bulletPool.checkCollisionOponent(oldPos[0], oldPos[1], newPos[0], newPos[1])
         if state:
+            pos = (self.pos.x + self.surface.get_width() / 2, self.pos.y + self.surface.get_height() / 2)
+            self.bulletPool.hero.explode.start(pos)
             self.free()
             print("Hited Oponent id: " + str(self.bulletPool.oponent.id))
 
@@ -70,9 +74,10 @@ class Bullet:
     # def draw(self, surface):
 
 class BulletPool: 
-    def __init__(self, amount, mainMap):
+    def __init__(self, amount, mainMap, hero):
         self.amount = amount
         self.mainMap = mainMap
+        self.hero = hero
         self.bullets = []
         for i in range(amount):
             bullet = Bullet(i, self.mainMap, self)

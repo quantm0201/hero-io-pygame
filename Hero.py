@@ -24,7 +24,12 @@ class Hero:
 
         self.speedPxPerFr = cf.HERO_BASE_SPEED_PX_PER_FR
 
-        self.surface = pygame.Surface((cf.HERO_WIDTH, cf.HERO_HEIGHT), SRCALPHA)
+        if (id == cf.HERO_1_ID):
+            self.surface = pygame.image.load("res/player/player1.png")
+        else:
+            self.surface = pygame.image.load("res/player/player2.png")
+        
+        self.surface = pygame.transform.scale(self.surface, (cf.HERO_WIDTH, cf.HERO_HEIGHT))
         self.rect = self.surface.get_rect()
         self.rect_center = (cf.HERO_WIDTH//2, cf.HERO_HEIGHT//2)
 
@@ -33,13 +38,17 @@ class Hero:
         self.direction = cf.FORWARD_DIRECTION
         self.forward = cf.FORWARD_DIRECTION
         self.angle = 0
-        self.bulletPool = BulletPool(10, self.parentMap)
+        self.bulletPool = BulletPool(10, self.parentMap, self)
         self.upDirection = False
         self.downDirection = False
 
         # Gun
         self.gunOrigin = pygame.image.load("res/Bullet/gun2.png")
         self.gunOrigin = pygame.transform.scale(self.gunOrigin, (16, 70))
+
+        # Effect
+        self.fireShot = Animation("res/effect/fireshot", 4, 0.5, 0.7)
+        self.explode = Animation("res/effect/Explosion", 8, 1, 0.3)
 
     def setOponent(self, oponent):
         self.bulletPool.setOponent(oponent)
@@ -48,18 +57,24 @@ class Hero:
     def shoot(self):
         pos = Point(self.x, self.y)
         self.bulletPool.shoot(pos, self.direction, self.angle)
+
+        
+        self.fireShot.start((self.x, self.y))
     
     def draw(self, surface):
         self.update()
-
-        # gun
-        self.drawGun(surface)
         self.rect.center = (self.x, self.y)
         # bullet
         self.bulletPool.update(surface)
-        
+        # gun
+        self.drawGun(surface)
         surface.blit(self.surface, self.rect)
-        pygame.draw.circle(self.surface, self.color, (cf.HERO_WIDTH//2, cf.HERO_HEIGHT//2), cf.HERO_SIZE//2)
+
+        # effect
+        self.fireShot.setRotate(self.angle)
+        self.fireShot.draw(surface)
+        
+        self.explode.draw(surface)
         
         
 
