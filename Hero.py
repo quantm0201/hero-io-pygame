@@ -27,27 +27,27 @@ class Hero:
         self.surface = pygame.Surface((cf.HERO_WIDTH, cf.HERO_HEIGHT), SRCALPHA)
         self.rect = self.surface.get_rect()
         self.rect_center = (cf.HERO_WIDTH//2, cf.HERO_HEIGHT//2)
+
+
         # bullet
+        self.direction = Point(1, 0)
         self.bulletPool = BulletPool(10)
+        self.upDirection = False
+        self.downDirection = True
 
-
-    
-    # def draw(self, surface):
-    #     surface.blit(self.surface, self.pos)
-        
-    #     # bullet
-    #     self.bulletPool.update(surface)
 
     def shoot(self):
-        vector =  Point(1, 1)
-        pos = Point(self.pos[0], self.pos[1])
-        self.bulletPool.shoot(pos, vector)
+        pos = Point(self.x, self.y)
+        self.bulletPool.shoot(pos, self.direction)
     
     def draw(self, surface):
         self.update()
         self.rect.center = (self.x, self.y)
         surface.blit(self.surface, self.rect)
         pygame.draw.circle(self.surface, self.color, (cf.HERO_WIDTH//2, cf.HERO_HEIGHT//2), cf.HERO_SIZE//2)
+
+        # bullet
+        self.bulletPool.update(surface)
         
 
     def update(self):
@@ -84,6 +84,15 @@ class Hero:
                 y = self.y
             self.x = x
             self.y = y
+
+            # bullet
+            if self.upDirection and self.downDirection:
+                return
+            elif self.upDirection:
+                self.changeDirection(cf.UP_DIRECTION_STATE)
+            elif self.downDirection:
+                self.changeDirection(cf.DOWN_DIRECTION_STATE)
+                
     
     def receiveEvent(self, event):
         if event.type == KEYDOWN:
@@ -96,7 +105,11 @@ class Hero:
             if event.key == cf.HERO_KEY[self.id].get("kRight"):
                 self.movingRight = True
             if event.key == cf.HERO_KEY[self.id].get(cf.K_ATTACK):
-                i = 0
+                self.shoot()
+            if event.key == cf.HERO_KEY[self.id].get(cf.K_UP_DIRECTION):
+                self.upDirection = True
+            if event.key == cf.HERO_KEY[self.id].get(cf.K_DOWN_DIRECTION):
+                self.downDirection = True
         if event.type == KEYUP:
             if event.key == cf.HERO_KEY[self.id].get("kUp"):
                 self.movingUp = False
@@ -106,4 +119,14 @@ class Hero:
                 self.movingLeft = False
             if event.key == cf.HERO_KEY[self.id].get("kRight"):
                 self.movingRight = False
+            if event.key == cf.HERO_KEY[self.id].get(cf.K_UP_DIRECTION):
+                self.upDirection = False
+            if event.key == cf.HERO_KEY[self.id].get(cf.K_DOWN_DIRECTION):
+                self.downDirection = False
         return None
+
+    def changeDirection(self, state):
+        if (state == cf.UP_DIRECTION_STATE):
+            return
+        else:
+            return

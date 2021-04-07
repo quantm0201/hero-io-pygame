@@ -59,26 +59,39 @@ HERO_SIZE = HERO_WIDTH = HERO_HEIGHT = 30
 HERO_1_ID = 8
 HERO_2_ID = 9
 
+# keyName
+K_ATTACK = "kAttack"
+K_UP_DIRECTION = "kUpDirection"
+K_DOWN_DIRECTION = "kDownDirection"
+
 HERO_KEY = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1]
 HERO_KEY[HERO_1_ID] = {
     "kUp": K_w,
     "kDown": K_s,
     "kLeft": K_a,
     "kRight": K_d,
-    "kAttack": K_SPACE,
+    K_ATTACK: K_SPACE,
+    K_UP_DIRECTION: K_q,
+    K_DOWN_DIRECTION: K_e,
 }
+
 HERO_KEY[HERO_2_ID] = {
     "kUp": K_UP,
     "kDown": K_DOWN,
     "kLeft": K_LEFT,
     "kRight": K_RIGHT,
-    "kAttack": K_0,
+    K_ATTACK: K_PERIOD,
+    K_UP_DIRECTION: K_COMMA,
+    K_DOWN_DIRECTION: K_SLASH,
 }
 
-K_ATTACK = "kAttack"
+
 
 # Bullet
 BULLET_SIZE = BULLET_WIDTH = BULLET_HEIGHT = 20
-BULLET_SPEED = 100      #   100pixel/s
-BULLET_TIME_TO_DIE = 3
+BULLET_SPEED = 1000      #   100pixel/s
+BULLET_TIME_TO_DIE = 1
 HERO_BASE_SPEED_PX_PER_FR = 2 #pixel per frame
+
+UP_DIRECTION_STATE = 0
+DOWN_DIRECTION_STATE = 1

@@ -35,7 +35,6 @@ class Bullet:
         self.vector = normalize(vector)
         self.countDieTime = 0
         self.isFree = False
-        print("isRun")
 
     def updatePosition(self):
         deltaX = self.vector.x * cf.BULLET_SPEED / cf.FPS
