@@ -19,8 +19,10 @@ FPS = 60
 
 
 # Game Command
-START_GAME = 0
-QUIT = 1
+CMD_QUIT = 0
+CMD_MAP_1 = 1
+CMD_MAP_2 = 2
+CMD_MAP_3 = 3
 
 
 # Map
@@ -42,6 +44,10 @@ MAP_1 = [[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
 [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]]
 
 BLOCK_SIZE = BLOCK_WIDTH = BLOCK_HEIGHT = 30
+
+MAP_1_ID = "desert"
+MAP_2_ID = "grass"
+MAP_3_ID = "ground"
 
 NO_COLLISION = 0
 COLLISON_X = 1

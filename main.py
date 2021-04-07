@@ -11,7 +11,6 @@ SCREEN = pygame.display.set_mode((cf.WIDTH, cf.HEIGHT))
 pygame.display.set_caption("Hero.io")
 
 menuScene = MenuScene()
-gameScene = GameScene()
 
 clock = pygame.time.Clock()
 
@@ -26,11 +25,12 @@ while True:
             gameScene.receiveEvent(event)
         elif event.type == KEYDOWN:
             ret = menuScene.receiveKey(event.key)
-            if ret == cf.QUIT:
+            if ret == cf.CMD_QUIT:
                 pygame.quit()
                 sys.exit()
-            if ret == cf.START_GAME:
+            elif ret != None:
                 started = True
+                gameScene = GameScene(ret)
 
     if started:
         gameScene.draw(SCREEN)
