@@ -52,14 +52,18 @@ class Map:
                 return cf.COLLISON_Y
         return cf.NO_COLLISION
 
+tileImg = [1, 1, 1]
+tileImg[0] = pygame.image.load("res/tile_desert.png")
+tileImg[1] = pygame.image.load("res/tile_grass.png")
+tileImg[2] = pygame.image.load("res/tile_ground.png")
 
 class Tile(pygame.sprite.Sprite):
-    def __init__(self, id, pos, mapName):
+    def __init__(self, id, pos, mapId):
         pygame.sprite.Sprite.__init__(self)
 
         self.id = id
         self.pos = pos
-        self.mapName = mapName
+        self.mapId = mapId
         self.width = self.height = cf.BLOCK_SIZE
 
         self.setImage()
@@ -69,18 +73,25 @@ class Tile(pygame.sprite.Sprite):
         self.rect.center = (self.pos[0] + cf.BLOCK_SIZE//2, self.pos[1] + cf.BLOCK_SIZE//2)
 
     def setImage(self):
-        self.image = pygame.image.load("res/tile_" + self.mapName + ".png").convert()
+        self.image = tileImg[self.mapId]
 
     def draw(self, surface):
         surface.blit(self.image, self.rect)
 
 class Block(Tile):
-    def __init__(self, id, pos, mapName, type):
+    def __init__(self, id, pos, mapId, type):
         self.type = type
-        Tile.__init__(self, id, pos, mapName)
+        Tile.__init__(self, id, pos, mapId)
 
     def setImage(self):
-        self.image = pygame.image.load("res/block" + str(self.type) + "_" + self.mapName + ".png").convert()
+        mapName = ""
+        if self.mapId == cf.MAP_1_ID:
+            mapName = "desert"
+        elif self.mapId == cf.MAP_2_ID:
+            mapName = "grass"
+        else:
+            mapName = "ground"
+        self.image = pygame.image.load("res/block" + str(self.type) + "_" + mapName + ".png").convert()
     
 
     def checkCollidePoint(self, x, y):
