@@ -33,6 +33,7 @@ class Bullet:
 
     def free(self):
         self.isFree = True
+        cf.explosionSound.play()
 
     def run(self, pos, vector, angle):
 

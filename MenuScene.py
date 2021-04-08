@@ -35,6 +35,7 @@ class MenuScene:
 
         self.select = cf.CMD_MAP_1
         self.changeSelect()
+        cf.introSound.play()
 
     def draw(self, surface):
         surface.blit(self.surface, (0, 0))

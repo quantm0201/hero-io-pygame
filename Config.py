@@ -40,6 +40,15 @@ gName_rect = GAME_NAME.get_rect()
 gName_rect.center = (100, 75)
 GAME_LOGO.blit(GAME_NAME, gName_rect)
 
+pygame.mixer.init()
+introSound = pygame.mixer.Sound('res/sound/intro.wav')
+gameOverSound = pygame.mixer.Sound('res/sound/gameOver.wav')
+fireSound = pygame.mixer.Sound('res/sound/fire.mp3')
+getBulletSound = pygame.mixer.Sound('res/sound/getBullet.wav')
+explosionSound = pygame.mixer.Sound('res/sound/explosion.wav')
+hitSound = pygame.mixer.Sound('res/sound/hitOponent.wav')
+pygame.mixer.music.load('res/sound/bgMusic.mp3')
+
 # Game config
 GAME_WAIT_NEW_ROUND_TIME = 3
 GAME_SCORE_TO_WIN = 5

@@ -25,6 +25,8 @@ while True:
             sys.exit()
         if ended:
             ret = endGameScene.receiveEvent(event)
+            cf.gameOverSound.play()
+            pygame.mixer.music.pause()
             if ret:
                 ended = False
                 started = False
@@ -38,6 +40,7 @@ while True:
             elif ret != None:
                 started = True
                 gameScene = GameScene(ret)
+                pygame.mixer.music.play(-1)
 
     if started:
         gameScene.draw(SCREEN)

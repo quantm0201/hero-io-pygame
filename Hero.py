@@ -31,9 +31,6 @@ class Hero:
         self.rect = self.surface.get_rect()
 
         # bullet
-        self.direction = self.FORWARD_DIRECTION
-        self.forward = self.FORWARD_DIRECTION
-        self.angle = 0
         self.bulletPool = BulletPool(10, self.parentMap, self)
         self.upDirection = False
         self.downDirection = False
@@ -58,12 +55,13 @@ class Hero:
             pos = Point(self.x, self.y)
             self.bulletPool.shoot(pos, self.direction, self.angle)
 
-            
+            cf.fireSound.play()
             self.fireShot.start((self.x, self.y))
             self.numBullet -= 1
 
     def die(self):
         self.isDead = True
+        cf.hitSound.play()
     
     def respawn(self):
         self.isDead = False
@@ -72,6 +70,9 @@ class Hero:
         self.y = self.parentMap.getHeroInitPos(self.id)[1]
         self.speedPxPerFr = cf.HERO_BASE_SPEED_PX_PER_FR
         self.numBullet = cf.INIT_NUM_BULLET
+        self.direction = self.FORWARD_DIRECTION
+        self.forward = self.FORWARD_DIRECTION
+        self.angle = 0
 
     def addScore(self, score):
         self.score += score
@@ -134,6 +135,7 @@ class Hero:
                     self.speedPxPerFr += cf.NUM_SPEED_PER_ITEM
             if ret == cf.ITEM_BULLET_ID:
                 self.numBullet += cf.NUM_BULLET_PER_ITEM
+                cf.getBulletSound.play()
             self.x = x
             self.y = y
 
