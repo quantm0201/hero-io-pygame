@@ -2,6 +2,7 @@ import pygame, sys
 from pygame.locals import *
 from MenuScene import *
 from GameScene import *
+from EndGameScene import *
 
 
 pygame.init()
@@ -15,13 +16,19 @@ menuScene = MenuScene()
 clock = pygame.time.Clock()
 
 started = False
+ended = False
 
 while True:
     for event in pygame.event.get():
         if event.type == QUIT:
             pygame.quit()
             sys.exit()
-        if started:
+        if ended:
+            ret = endGameScene.receiveEvent(event)
+            if ret:
+                ended = False
+                started = False
+        elif started:
             gameScene.receiveEvent(event)
         elif event.type == KEYDOWN:
             ret = menuScene.receiveKey(event.key)
@@ -34,7 +41,14 @@ while True:
 
     if started:
         gameScene.draw(SCREEN)
+        if gameScene.endGame != 0:
+            endGameScene = EndGameScene(gameScene.endGame)
+            ended = True
     else:
         menuScene.draw(SCREEN)
+
+    if ended:
+        endGameScene.draw(SCREEN)
+    
     pygame.display.update()
     clock.tick(cf.FPS)

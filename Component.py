@@ -4,18 +4,19 @@ import Config as cf
 
 
 class Text:
-    def __init__(self, parent, txt, color = cf.WHITE, size = 20):
+    def __init__(self, parent, pos, txt, color = cf.WHITE, size = 20):
         self.font = pygame.font.SysFont('consolas', size)
         self.text = txt
         self.color = color
         self.surface = self.font.render(self.text, True, self.color)
         self.rect = self.surface.get_rect()
-        self.rect.center = (parent.get_width()//2, parent.get_height()//2)
+        self.rect.center = pos
         self.parent = parent
         self.parent.blit(self.surface, self.rect)
 
-    def setText(self, txt):
+    def setText(self, txt, parent):
         self.text = txt
+        self.parent = parent
         self.reDraw()
 
     def setColor(self, color):

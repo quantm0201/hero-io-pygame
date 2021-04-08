@@ -14,15 +14,12 @@ class Hero:
             self.color = cf.BLUE
 
         self.parentMap = parentMap
-        self.x = parentMap.getHeroInitPos(id)[0]
-        self.y = parentMap.getHeroInitPos(id)[1]
+        self.respawn()
 
         self.movingUp = False
         self.movingDown = False
         self.movingLeft = False
         self.movingRight = False
-
-        self.speedPxPerFr = cf.HERO_BASE_SPEED_PX_PER_FR
 
         if (id == cf.HERO_1_ID):
             self.surface = pygame.image.load("res/player/player1.png")
@@ -31,8 +28,6 @@ class Hero:
         
         self.surface = pygame.transform.scale(self.surface, (cf.HERO_WIDTH, cf.HERO_HEIGHT))
         self.rect = self.surface.get_rect()
-        self.rect_center = (cf.HERO_WIDTH//2, cf.HERO_HEIGHT//2)
-
 
         # bullet
         self.direction = cf.FORWARD_DIRECTION
@@ -50,6 +45,9 @@ class Hero:
         self.fireShot = Animation("res/effect/fireshot", 4, 0.5, 0.7)
         self.explode = Animation("res/effect/Explosion", 8, 1, 0.3)
 
+        # score
+        self.score = 0
+
     def setOponent(self, oponent):
         self.bulletPool.setOponent(oponent)
 
@@ -60,6 +58,19 @@ class Hero:
 
         
         self.fireShot.start((self.x, self.y))
+
+    def die(self):
+        self.isDead = True
+    
+    def respawn(self):
+        self.isDead = False
+        self.alpha = 255
+        self.x = self.parentMap.getHeroInitPos(self.id)[0]
+        self.y = self.parentMap.getHeroInitPos(self.id)[1]
+        self.speedPxPerFr = cf.HERO_BASE_SPEED_PX_PER_FR
+
+    def addScore(self, score):
+        self.score += score
     
     def draw(self, surface):
         self.update()
@@ -68,6 +79,8 @@ class Hero:
         self.bulletPool.update(surface)
         # gun
         self.drawGun(surface)
+
+        self.surface.set_alpha(self.alpha)
         surface.blit(self.surface, self.rect)
 
         # effect
@@ -76,7 +89,7 @@ class Hero:
         
         self.explode.draw(surface)
         
-        
+
 
     def update(self):
         if self.movingLeft or self.movingDown or self.movingUp or self.movingRight:
@@ -121,6 +134,10 @@ class Hero:
         elif self.downDirection:
             self.changeDirection(cf.DOWN_DIRECTION_STATE)
                 
+        # alive state
+        if self.isDead:
+            self.blur()
+
     
     def receiveEvent(self, event):
         if event.type == KEYDOWN:
@@ -163,6 +180,13 @@ class Hero:
         dirX = self.forward.x * math.cos(radian) - self.forward.y * math.sin(radian)
         dirY = self.forward.x * math.sin(radian) + self.forward.y * math.cos(radian)
         self.direction = Point(dirX, dirY)
+    
+    def blur(self):
+        if self.alpha - 5 > 0:
+            self.alpha -= 5
+        elif self.alpha > 0:
+            self.alpha = 0
+        
 
     def drawGun(self, surface): 
         self.gunPos = (self.x - self.gunOrigin.get_width() / 2, self.y - self.gunOrigin.get_height() / 2)
@@ -170,4 +194,5 @@ class Hero:
         self.gun = pygame.transform.rotate(self.gunOrigin, -self.angle)
         rect = self.gun.get_rect(center = self.gunOrigin.get_rect().center)
         self.gunPos = (self.gunPos[0] + rect.left, self.gunPos[1] + rect.top)
+        self.gun.set_alpha(self.alpha)
         surface.blit(self.gun, self.gunPos)

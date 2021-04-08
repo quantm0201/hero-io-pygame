@@ -16,6 +16,7 @@ GREEN = (0, 200, 0)
 DARK_GREEN = (0, 110, 0)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+YELLLOW = (255, 204, 0)
 TRANSPARENT = (0, 0, 0, 0)
 
 # FPS
@@ -27,6 +28,22 @@ CMD_QUIT = 0
 CMD_MAP_1 = 1
 CMD_MAP_2 = 2
 CMD_MAP_3 = 3
+
+GAME_LOGO = pygame.Surface((200, 100), SRCALPHA)
+GAME_STAR = pygame.image.load("res/star.png")
+gStar_rect = GAME_STAR.get_rect()
+gStar_rect.center = (100, 35)
+GAME_LOGO.blit(GAME_STAR, gStar_rect)
+pygame.font.init()
+gName_font = pygame.font.SysFont('comicsansms', 15, True, False)
+GAME_NAME = gName_font.render("ROYALE BATTLE", True, YELLLOW)
+gName_rect = GAME_NAME.get_rect()
+gName_rect.center = (100, 75)
+GAME_LOGO.blit(GAME_NAME, gName_rect)
+
+# Game config
+GAME_WAIT_NEW_ROUND_TIME = 3
+GAME_SCORE_TO_WIN = 1
 
 
 # Map

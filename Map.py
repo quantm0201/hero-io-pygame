@@ -4,8 +4,9 @@ import Config as cf
 from Component import *
 
 class Map:
-    def __init__(self, id):
+    def __init__(self, id, pos):
         self.id = id
+        self.pos = pos
         self.surface = pygame.Surface((cf.BLOCK_SIZE*len(cf.MAP_1[0]), cf.BLOCK_SIZE*len(cf.MAP_1)), SRCALPHA)
         self.surface.fill(cf.GREEN)
         self.blocks = []
@@ -19,7 +20,7 @@ class Map:
                     self.blocks.append(block)
     
     def draw(self, surface):
-        surface.blit(self.surface, (0, 100))
+        surface.blit(self.surface, self.pos)
         self.surface.fill(cf.GREEN)
         for tile in self.tiles:
             tile.draw(self.surface)
