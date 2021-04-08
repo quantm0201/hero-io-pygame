@@ -1,9 +1,27 @@
 import pygame, sys
 from pygame.locals import *
 import Config as cf
+from Util import *
 from Component import *
 
 class Map:
+
+    # side
+    TOP = 1
+    RIGHT = 2
+    LEFT = 4
+    BOT = 3
+
+    # region
+    TOPLEFT = 1
+    TOPRIGHT = 2
+    BOTRIGHT = 3
+    BOTLEFT = 4
+
+    # rotate
+    CLOCKWISE = True
+    ANTICLOCKWISE = False
+
     def __init__(self, id):
         self.id = id
         self.surface = pygame.Surface((cf.BLOCK_SIZE*len(cf.MAP_1[0]), cf.BLOCK_SIZE*len(cf.MAP_1)), SRCALPHA)
@@ -52,20 +70,101 @@ class Map:
                 return cf.COLLISON_Y
         return cf.NO_COLLISION
 
-    def checkCollisionByFor(self, oldX, oldY, x, y):
+    def checkCollisionByFor(self, oldX, oldY, x, y, direction):
         deltaX = (x - oldX) / cf.DETECT_SLICE
         deltaY = (y - oldY) / cf.DETECT_SLICE
-        startX = x
-        startY = y
+        startX = oldX
+        startY = oldY
+        saveBlock = None
 
         for i in range(cf.DETECT_SLICE):
+            startX += deltaX
+            startY += deltaY
             for block in self.blocks:
                 if block.checkCollidePoint(startX, startY):
-                    return True
-            startX -= deltaX
-            startY -= deltaY
+                    saveBlock = block
+                    break
+            if saveBlock != None:
+                break
+            
+
+
+        if (saveBlock != None):
+            newDir, angle = self.calculateReflex(saveBlock, direction, Point(startX, startY))
+            return newDir, True, angle
+        return None, False, None
+
+    def calculateReflex(self, block, dir, collidePoint):
+        # print(dir.getValue())
+        # side of direction
+        sideDir = self.calculateSideDirection(dir)
+
+        centerPoint = Point(block.pos[0] + block.width / 2, block.pos[1] + block.height / 2)
+        collideDir = normalize(Point(centerPoint.x - collidePoint.x, centerPoint.y - collidePoint.y))
         
-        return False
+        # side of collission point
+        sideCollide = self.calculateSideCollide(collideDir)
+        
+        # combine sideDir & sideCollide -> bullet should be rotate with wiseClock or unwiseClock
+        straightForward, clockWise = self.calculateReflexDirection(sideDir, sideCollide)
+
+        reverseVector = Point(-dir.x, -dir.y)
+        angle = getAngleBetweenVector(straightForward, reverseVector)
+        newDir = rotateVector(reverseVector, angle * 2, clockWise)
+
+        if (clockWise):
+            angle = -2 * angle
+        else:
+            angle = 2 * angle
+
+        return newDir, angle
+
+    def calculateSideDirection(self, dir):
+        if (dir.x >= 0 and dir.y > 0):
+            return self.TOPLEFT
+        elif (dir.x < 0 and dir.y >= 0):
+            return self.TOPRIGHT
+        elif (dir.x <= 0 and dir.y < 0):
+            return self.BOTRIGHT
+        elif (dir.x > 0 and dir.y <= 0):
+            return self.BOTLEFT
+
+        return 0
+
+    def calculateSideCollide(self, dir):
+        middle = math.sqrt(2) / 2
+        if  (dir.x >= middle and middle >= dir.y > -middle):
+            return self.LEFT
+        elif (-middle <= dir.x < middle and dir.y > middle):
+            return self.TOP
+        elif (dir.x <= -middle  and middle > dir.y >= -middle):
+            return self.RIGHT
+        else:
+            return self.BOT
+
+    def calculateReflexDirection(self, sideDir, sideCollide):
+        if (sideDir == self.TOPLEFT):
+            if (sideCollide == self.TOP):
+                return Point(0, -1), self.CLOCKWISE
+            else:
+                return Point(-1, 0), self.ANTICLOCKWISE
+        elif (sideDir == self.TOPRIGHT):
+            if (sideCollide == self.TOP):
+                return Point(0, -1), self.ANTICLOCKWISE
+            else:
+                return Point(1, 0), self.CLOCKWISE
+        elif (sideDir == self.BOTRIGHT):
+            if (sideCollide == self.BOT):
+                return Point(0, 1), self.CLOCKWISE
+            else:
+                return Point(1, 0), self.ANTICLOCKWISE
+        elif (sideDir == self.BOTLEFT):
+            if (sideCollide == self.BOT):
+                return Point(0, 1), self.ANTICLOCKWISE
+            else:
+                return Point(-1, 0), self.CLOCKWISE
+        return 0
+
 
 tileImg = [1, 1, 1]
 tileImg[0] = pygame.image.load("res/tile_desert.png")

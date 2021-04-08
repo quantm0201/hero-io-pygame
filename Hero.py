@@ -6,6 +6,7 @@ from Bullet import *
 from Util import *
 
 class Hero:
+    FORWARD_DIRECTION = Point(0, -1)
     def __init__(self, id, parentMap):
         self.id = id
         if self.id == cf.HERO_1_ID:
@@ -35,8 +36,8 @@ class Hero:
 
 
         # bullet
-        self.direction = cf.FORWARD_DIRECTION
-        self.forward = cf.FORWARD_DIRECTION
+        self.direction = self.FORWARD_DIRECTION
+        self.forward = self.FORWARD_DIRECTION
         self.angle = 0
         self.bulletPool = BulletPool(10, self.parentMap, self)
         self.upDirection = False

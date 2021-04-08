@@ -3,7 +3,7 @@ from pygame.locals import *
 import Config as cf
 from Util import *
 
-bulletSrc = "res/Bullet/bullet1.png"
+bulletSrc = "res/Bullet/bullet.png"
 
 class Bullet:
     def __init__(self, id, mainMap, bulletPool):
@@ -21,6 +21,8 @@ class Bullet:
 
     def update(self, surface):
         if self.countDieTime > cf.BULLET_TIME_TO_DIE * cf.FPS:
+            pos = (self.pos.x + self.surface.get_width() / 2, self.pos.y + self.surface.get_height() / 2)
+            self.bulletPool.hero.explode.start(pos)
             self.free()
 
         if (not self.isFree):
@@ -51,15 +53,16 @@ class Bullet:
 
         deltaX = self.vector.x * cf.BULLET_SPEED / cf.FPS
         deltaY = self.vector.y * cf.BULLET_SPEED / cf.FPS
-        self.pos.addDelta(deltaX, deltaY)
+        
 
-        newPos = (self.pos.x + self.surface.get_width() / 2, self.pos.y + self.surface.get_width() / 2)
-
-        state = self.mainMap.checkCollisionByFor(oldPos[0], oldPos[1], newPos[0], newPos[1])
+        newPos = (oldPos[0] + deltaX, oldPos[1] + deltaY)
+        newDir, state, angle = self.mainMap.checkCollisionByFor(oldPos[0], oldPos[1], newPos[0], newPos[1], self.vector)
         if state:
-            pos = (self.pos.x + self.surface.get_width() / 2, self.pos.y + self.surface.get_height() / 2)
-            self.bulletPool.hero.explode.start(pos)
-            self.free()
+            # pos = (self.pos.x + self.surface.get_width() / 2, self.pos.y + self.surface.get_height() / 2)
+            # self.bulletPool.hero.explode.start(pos)
+            self.vector = newDir
+            return
+            # self.free()
 
         state = self.bulletPool.checkCollisionOponent(oldPos[0], oldPos[1], newPos[0], newPos[1])
         if state:
@@ -68,8 +71,9 @@ class Bullet:
             self.free()
             print("Hited Oponent id: " + str(self.bulletPool.oponent.id))
 
-    
+        self.pos.addDelta(deltaX, deltaY)
 
+        
         
     # def draw(self, surface):
 

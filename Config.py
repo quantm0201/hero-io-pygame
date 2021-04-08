@@ -1,7 +1,6 @@
 import pygame, sys
 from pygame.locals import *
 import math
-from Util import *
 
 # Resolution
 WIDTH = 1200
@@ -92,7 +91,7 @@ HERO_KEY[HERO_2_ID] = {
 
 
 # Bullet
-BULLET_SIZE = BULLET_WIDTH = BULLET_HEIGHT = 130
+BULLET_SIZE = BULLET_WIDTH = BULLET_HEIGHT = 20
 BULLET_SPEED = 1000      #   100pixel/s
 BULLET_TIME_TO_DIE = 1
 HERO_BASE_SPEED_PX_PER_FR = 2 #pixel per frame
@@ -101,6 +100,6 @@ UP_DIRECTION_STATE = 0
 DOWN_DIRECTION_STATE = 1
 DIRECTION_SPEED = 2
 DEGREE_TO_RADIAN = math.pi / 180
+RADIAN_TO_DEGREE = 180 / math.pi
 
-FORWARD_DIRECTION = Point(0, -1)
 DETECT_SLICE = 10
