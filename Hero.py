@@ -53,11 +53,13 @@ class Hero:
 
 
     def shoot(self):
-        pos = Point(self.x, self.y)
-        self.bulletPool.shoot(pos, self.direction, self.angle)
+        if self.numBullet > 0:
+            pos = Point(self.x, self.y)
+            self.bulletPool.shoot(pos, self.direction, self.angle)
 
-        
-        self.fireShot.start((self.x, self.y))
+            
+            self.fireShot.start((self.x, self.y))
+            self.numBullet -= 1
 
     def die(self):
         self.isDead = True
@@ -68,6 +70,7 @@ class Hero:
         self.x = self.parentMap.getHeroInitPos(self.id)[0]
         self.y = self.parentMap.getHeroInitPos(self.id)[1]
         self.speedPxPerFr = cf.HERO_BASE_SPEED_PX_PER_FR
+        self.numBullet = cf.INIT_NUM_BULLET
 
     def addScore(self, score):
         self.score += score
@@ -115,7 +118,9 @@ class Hero:
                 x = self.x - self.speedPxPerFr
             elif self.movingRight:
                 x = self.x + self.speedPxPerFr
+            
             ret = self.parentMap.checkCollision(self.x, self.y, x, y)
+
             if ret == cf.COLLISON_X:
                 x = self.x
             if ret == cf.COLLISON_Y:
@@ -123,6 +128,11 @@ class Hero:
             if ret == cf.COLLISON_BOTH:
                 x = self.x
                 y = self.y
+            if ret == cf.ITEM_SPEED_ID:
+                if self.speedPxPerFr < cf.HERO_MAX_SPEED_PX_PER_FR:
+                    self.speedPxPerFr += cf.NUM_SPEED_PER_ITEM
+            if ret == cf.ITEM_BULLET_ID:
+                self.numBullet += cf.NUM_BULLET_PER_ITEM
             self.x = x
             self.y = y
 

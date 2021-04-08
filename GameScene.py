@@ -27,12 +27,14 @@ class GameScene:
         self.lblHero1_score = pygame.transform.scale(self.scoreBg, (200, 100))
         self.lbl1_rect = self.lblHero1_score.get_rect()
         self.lbl1_rect.center = (200, 50)
-        self.lblHero1_Txt = Text(self.lblHero1_score, (100, 50),"Hero 1 Score: " + str(self.hero1.score), cf.WHITE, 20)
+        self.lblHero1_scoreTxt = Text(self.lblHero1_score, (100, 30),"Hero 1 Score: " + str(self.hero1.score), cf.WHITE, 20)
+        self.lblHero1_bulletTxt = Text(self.lblHero1_score, (100, 70), "Bullets: " + str(self.hero1.numBullet), cf.YELLLOW, 12)
 
         self.lblHero2_score = pygame.transform.scale(self.scoreBg, (200, 100))
         self.lbl2_rect = self.lblHero2_score.get_rect()
         self.lbl2_rect.center = (cf.WIDTH - 200, 50)
-        self.lblHero2_Txt = Text(self.lblHero2_score, (100, 50), "Hero 2 Score: " + str(self.hero2.score), cf.WHITE, 20)
+        self.lblHero2_scoreTxt = Text(self.lblHero2_score, (100, 30), "Hero 2 Score: " + str(self.hero2.score), cf.WHITE, 20)
+        self.lblHero2_bulletTxt = Text(self.lblHero2_score, (100, 70), "Bullets: " + str(self.hero2.numBullet), cf.YELLLOW, 12)
 
         self.logo = cf.GAME_LOGO
         self.logo_rect = self.logo.get_rect()
@@ -50,8 +52,10 @@ class GameScene:
         self.hero2.draw(self.map.surface)
         self.lblHero1_score = pygame.transform.scale(self.scoreBg, (200, 100))
         self.lblHero2_score = pygame.transform.scale(self.scoreBg, (200, 100))
-        self.lblHero1_Txt.setText("Hero 1 Score: " + str(self.hero1.score), self.lblHero1_score)
-        self.lblHero2_Txt.setText("Hero 2 Score: " + str(self.hero2.score), self.lblHero2_score)
+        self.lblHero1_scoreTxt.setText("Hero 1 Score: " + str(self.hero1.score), self.lblHero1_score)
+        self.lblHero2_scoreTxt.setText("Hero 2 Score: " + str(self.hero2.score), self.lblHero2_score)
+        self.lblHero1_bulletTxt.setText("Bullets: " + str(self.hero1.numBullet), self.lblHero1_score)
+        self.lblHero2_bulletTxt.setText("Bullets: " + str(self.hero2.numBullet), self.lblHero2_score)
         self.surface.blit(self.lblHero1_score, self.lbl1_rect)
         self.surface.blit(self.lblHero2_score, self.lbl2_rect)
 
