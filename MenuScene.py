@@ -10,23 +10,28 @@ class MenuScene:
 
         self.btnMap1 = pygame.Surface((200, 100), SRCALPHA)
         self.btnMap1_rect = self.btnMap1.get_rect()
-        self.btnMap1_rect.center = (cf.WIDTH/4, cf.HEIGHT/5)
-        self.map1Txt = Text(self.btnMap1,"DESERT", cf.WHITE, 30)
+        self.btnMap1_rect.center = (cf.WIDTH/4, cf.HEIGHT*2/6)
+        self.map1Txt = Text(self.btnMap1, (100, 50), "DESERT", cf.WHITE, 30)
 
         self.btnMap2 = pygame.Surface((200, 100), SRCALPHA)
         self.btnMap2_rect = self.btnMap2.get_rect()
-        self.btnMap2_rect.center = (cf.WIDTH/4, cf.HEIGHT*2/5)
-        self.map2Txt = Text(self.btnMap2,"FOREST", cf.WHITE, 30)
+        self.btnMap2_rect.center = (cf.WIDTH/4, cf.HEIGHT*3/6)
+        self.map2Txt = Text(self.btnMap2, (100, 50), "FOREST", cf.WHITE, 30)
 
         self.btnMap3 = pygame.Surface((200, 100), SRCALPHA)
         self.btnMap3_rect = self.btnMap3.get_rect()
-        self.btnMap3_rect.center = (cf.WIDTH/4, cf.HEIGHT*3/5)
-        self.map3Txt = Text(self.btnMap3,"YARD", cf.WHITE, 30)
+        self.btnMap3_rect.center = (cf.WIDTH/4, cf.HEIGHT*4/6)
+        self.map3Txt = Text(self.btnMap3, (100, 50), "YARD", cf.WHITE, 30)
 
         self.btnQuit = pygame.Surface((200, 100), SRCALPHA)
         self.btnQuit_rect = self.btnQuit.get_rect()
-        self.btnQuit_rect.center = (cf.WIDTH/2, cf.HEIGHT*4/5)
-        self.quitTxt = Text(self.btnQuit, "QUIT", cf.WHITE, 30)
+        self.btnQuit_rect.center = (cf.WIDTH/2, cf.HEIGHT*5/6 + 50)
+        self.quitTxt = Text(self.btnQuit, (100, 50), "QUIT", cf.WHITE, 30)
+
+        self.logo = cf.GAME_LOGO
+        self.logo_rect = self.logo.get_rect()
+        self.logo_rect.center = (cf.WIDTH//2, 70)
+        self.surface.blit(self.logo, self.logo_rect)
 
         self.select = cf.CMD_MAP_1
         self.changeSelect()
@@ -101,6 +106,6 @@ class MenuScene:
         self.surface.blit(self.btnQuit, self.btnQuit_rect)
         self.bg = pygame.transform.scale(self.bg, (500, 380))
         self.bg_rect = self.bg.get_rect()
-        self.bg_rect.center = (cf.WIDTH*3/4 - 100, cf.HEIGHT*2/5)
+        self.bg_rect.center = (cf.WIDTH*3/4 - 100, cf.HEIGHT*3/6)
         self.surface.blit(self.bg, self.bg_rect)
         

@@ -70,6 +70,8 @@ class Bullet:
             self.bulletPool.hero.explode.start(pos)
             self.free()
             print("Hited Oponent id: " + str(self.bulletPool.oponent.id))
+            self.bulletPool.oponent.die()
+            self.bulletPool.hero.addScore(1)
 
         self.pos.addDelta(deltaX, deltaY)
 
